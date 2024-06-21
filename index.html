@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu with Payment</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .menu-item {
+            margin-bottom: 10px;
+        }
+        .total {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+        .payment {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Menu</h1>
+    <div class="menu-item">
+        <input type="checkbox" id="item1" name="item1" value="100" onclick="calculateTotal()">
+        <label for="item1">Item 1 - ₹100</label>
+    </div>
+    <div class="menu-item">
+        <input type="checkbox" id="item2" name="item2" value="150" onclick="calculateTotal()">
+        <label for="item2">Item 2 - ₹150</label>
+    </div>
+    <div class="menu-item">
+        <input type="checkbox" id="item3" name="item3" value="200" onclick="calculateTotal()">
+        <label for="item3">Item 3 - ₹200</label>
+    </div>
+    <div class="total">
+        Total: ₹<span id="total">0</span>
+    </div>
+
+    <div class="payment">
+        <h2>Pay via Google Pay</h2>
+        <a id="upi-payment-link" href="#" target="_blank">Click here to pay</a>
+        <div id="upi-qr-code"></div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
+    <script>
+        function calculateTotal() {
+            const items = document.querySelectorAll('input[type="checkbox"]');
+            let total = 0;
+            items.forEach(item => {
+                if (item.checked) {
+                    total += parseInt(item.value);
+                }
+            });
+            document.getElementById('total').innerText = total;
+            updatePaymentLink(total);
+        }
+
+        function updatePaymentLink(total) {
+            const upiID = "manaskasar@upi"; // Replace with your UPI ID
+            const name = "Manas"; // Replace with your name
+            const paymentLink = `upi://pay?pa=${upiID}&pn=${name}&am=${total}&cu=INR`;
+            document.getElementById('upi-payment-link').href = paymentLink;
+
+            // Generate QR code
+            const qr = new QRious({
+                element: document.getElementById('upi-qr-code'),
+                value: paymentLink,
+                size: 200
+            });
+            window.location.href = `payment.html?${queryParams.toString()}`;
+        }
+
+        document.addEventListener('DOMContentLoaded', () => updatePaymentLink(0));
+    </script>
+</body>
+</html>
+
+

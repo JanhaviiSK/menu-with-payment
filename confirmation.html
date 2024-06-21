@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Confirmation</title>
+</head>
+<body>
+    <h1>Order Confirmation</h1>
+    <p>Your order has been confirmed.</p>
+    <button onclick="sendOrderDetails()">Send Order Details via WhatsApp</button>
+
+    <script>
+        function sendOrderDetails() {
+            const items = ['Item 1', 'Item 2', 'Item 3']; // Get items from the server
+            const total = 450; // Get total amount from the server
+            const receipt = `Payment Receipt\n\nTotal: ₹${total}\nTransaction ID: 1234567890`;
+
+            const message = `New order received:\n\nItems: ${items.join(', ')}\n\n${receipt}`;
+            const whatsappLink = `https://wa.me/+919987873049?text=${encodeURIComponent(message)}`;
+
+            window.open(whatsappLink, '_blank');
+        }
+    </script>
+</body>
+</html>
